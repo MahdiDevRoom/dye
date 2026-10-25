@@ -1,6 +1,6 @@
 /**
  * @name dye
- * @version 1.0.0
+ * @version 1.0.1
  * @author MahdiDevRoom
  * @license MIT
  * @see https://github.com/MahdiDevRoom/dye
@@ -100,7 +100,7 @@ export interface StyledBlock {
   DYE
 -------------------------------------------------------- */
 export class Dye {
-  static readonly version = '1.0.0';
+  static readonly version = '1.0.1';
 
   // --- Privet values ------------------------------------
   static #STYLES: ReadonlySet<EffectName> = new Set<EffectName>([

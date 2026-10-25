@@ -1,6 +1,6 @@
 /**
  * @name dye
- * @version 1.0.0
+ * @version 1.0.1
  * @author MahdiDevRoom
  * @license MIT
  * @see https://github.com/MahdiDevRoom/dye
@@ -9,7 +9,7 @@
   DYE
 -------------------------------------------------------- */
 export class Dye {
-    static version = '1.0.0';
+    static version = '1.0.1';
     // --- Privet values ------------------------------------
     static #STYLES = new Set([
         'bold', 'dim', 'italic', 'underline',

@@ -1,6 +1,6 @@
 {
   "name": "dye",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "MahdiDevRoom",
   "license": "MIT",
   "type": "module",
@@ -11,11 +11,12 @@
   ],
   "private": true,
   "scripts": {
-    "build": "tsc",
     "watch": "tsc -w",
-    "test": "node test/index.js"
+    "dev": "node --watch=dist test",
+    "test": "node test",
+    "build": "tsc"
   },
   "devDependencies": {
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   }
 }
