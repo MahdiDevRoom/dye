@@ -1,6 +1,6 @@
 /**
  * @name dye
- * @version 1.0.1
+ * @version 1.0.2
  * @author MahdiDevRoom
  * @license MIT
  * @see https://github.com/MahdiDevRoom/dye
@@ -10,14 +10,14 @@
   TYPES
 -------------------------------------------------------- */
 export type EffectName =
-  | 'bold' | 'dim'     | 'italic' | 'underline'
-  | 'blink'| 'inverse' | 'hidden' | 'strikethrough';
+  | 'bold' | 'dim' | 'italic' | 'underline'
+  | 'blink' | 'inverse' | 'hidden' | 'strikethrough';
 
 export type ColorName =
-  | 'black' | 'brightBlack' | 'red'     | 'brightRed'
-  | 'green' | 'brightGreen' | 'yellow'  | 'brightYellow'
-  | 'blue'  | 'brightBlue'  | 'magenta' | 'brightMagenta'
-  | 'cyan'  | 'brightCyan'  | 'white'   | 'brightWhite';
+  | 'black' | 'brightBlack' | 'red' | 'brightRed'
+  | 'green' | 'brightGreen' | 'yellow' | 'brightYellow'
+  | 'blue' | 'brightBlue' | 'magenta' | 'brightMagenta'
+  | 'cyan' | 'brightCyan' | 'white' | 'brightWhite';
 
 export type RgbValue = `rgb(${number} ${number} ${number})`;
 
@@ -41,14 +41,14 @@ export interface AnsiEffectMap {
 }
 
 export interface AnsiTrueColorMap {
-  black:   string, brightBlack:   string,
-  red:     string, brightRed:     string,
-  green:   string, brightGreen:   string,
-  yellow:  string, brightYellow:  string,
-  blue:    string, brightBlue:    string,
+  black: string, brightBlack: string,
+  red: string, brightRed: string,
+  green: string, brightGreen: string,
+  yellow: string, brightYellow: string,
+  blue: string, brightBlue: string,
   magenta: string, brightMagenta: string,
-  cyan:    string, brightCyan:    string,
-  white:   string, brightWhite:   string,
+  cyan: string, brightCyan: string,
+  white: string, brightWhite: string,
 }
 
 export interface AnsiFuncColorMap {
@@ -56,7 +56,7 @@ export interface AnsiFuncColorMap {
   code: (c: number) => string;
 }
 
-export interface AnsiColorMap extends AnsiTrueColorMap, AnsiFuncColorMap {}
+export interface AnsiColorMap extends AnsiTrueColorMap, AnsiFuncColorMap { }
 
 export interface AnsiMap {
   reset: string;
@@ -331,19 +331,34 @@ export class Dye {
 
     const result: StyledBlock[] = [];
     let current: Style = {};
+    let pendingStyle: Style | null = null;
 
     for (const node of ast) {
       if (node.type === 'text') {
-        if (node.value) result.push({ text: node.value, style: { ...current } });
+        if (node.value) {
+          result.push({ text: node.value, style: { ...current } });
+          pendingStyle = null; // استایل در بلوک متنی ثبت شد
+        }
         continue;
       }
 
       if (node.value.reset === true) {
+        // flush فقط اگر استایلی ثبت نشده باشد
+        if (pendingStyle && Object.keys(pendingStyle).length > 0) {
+          result.push({ text: '', style: { ...pendingStyle } });
+        }
         result.push({ text: '', style: { reset: true } });
         current = {};
+        pendingStyle = null;
       } else {
         current = Dye.#applyStyle(current, node.value);
+        pendingStyle = { ...current }; // استایل جدید هنوز ثبت نشده
       }
+    }
+
+    // flush انتهایی فقط اگر استایلی ثبت نشده باشد
+    if (pendingStyle && Object.keys(pendingStyle).length > 0) {
+      result.push({ text: '', style: { ...pendingStyle } });
     }
 
     return result;

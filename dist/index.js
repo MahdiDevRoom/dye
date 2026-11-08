@@ -1,6 +1,6 @@
 /**
  * @name dye
- * @version 1.0.1
+ * @version 1.0.2
  * @author MahdiDevRoom
  * @license MIT
  * @see https://github.com/MahdiDevRoom/dye
@@ -215,19 +215,32 @@ export class Dye {
             return [];
         const result = [];
         let current = {};
+        let pendingStyle = null;
         for (const node of ast) {
             if (node.type === 'text') {
-                if (node.value)
+                if (node.value) {
                     result.push({ text: node.value, style: { ...current } });
+                    pendingStyle = null; // استایل در بلوک متنی ثبت شد
+                }
                 continue;
             }
             if (node.value.reset === true) {
+                // flush فقط اگر استایلی ثبت نشده باشد
+                if (pendingStyle && Object.keys(pendingStyle).length > 0) {
+                    result.push({ text: '', style: { ...pendingStyle } });
+                }
                 result.push({ text: '', style: { reset: true } });
                 current = {};
+                pendingStyle = null;
             }
             else {
                 current = Dye.#applyStyle(current, node.value);
+                pendingStyle = { ...current }; // استایل جدید هنوز ثبت نشده
             }
+        }
+        // flush انتهایی فقط اگر استایلی ثبت نشده باشد
+        if (pendingStyle && Object.keys(pendingStyle).length > 0) {
+            result.push({ text: '', style: { ...pendingStyle } });
         }
         return result;
     }
