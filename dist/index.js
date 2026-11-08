@@ -9,7 +9,7 @@
   DYE
 -------------------------------------------------------- */
 export class Dye {
-    static version = '1.0.1';
+    static version = '1.0.2';
     // --- Privet values ------------------------------------
     static #STYLES = new Set([
         'bold', 'dim', 'italic', 'underline',

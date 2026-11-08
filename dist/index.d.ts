@@ -78,7 +78,7 @@ export interface StyledBlock {
 }
 export declare class Dye {
     #private;
-    static readonly version = "1.0.1";
+    static readonly version = "1.0.2";
     static parseMarkup(markup: string): AstNode[];
     static parseAst(ast: AstNode[]): StyledBlock[];
     static parseStyle(input: StyledBlock[] | Style | undefined): string;

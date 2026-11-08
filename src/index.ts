@@ -100,7 +100,7 @@ export interface StyledBlock {
   DYE
 -------------------------------------------------------- */
 export class Dye {
-  static readonly version = '1.0.1';
+  static readonly version = '1.0.2';
 
   // --- Privet values ------------------------------------
   static #STYLES: ReadonlySet<EffectName> = new Set<EffectName>([
