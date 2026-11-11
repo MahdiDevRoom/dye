@@ -1,6 +1,6 @@
 /**
  * @name dye
- * @version 1.0.2
+ * @version 1.0.3
  * @author MahdiDevRoom
  * @license MIT
  * @see https://github.com/MahdiDevRoom/dye
@@ -78,7 +78,7 @@ export interface StyledBlock {
 }
 export declare class Dye {
     #private;
-    static readonly version = "1.0.2";
+    static readonly version = "1.0.3";
     static parseMarkup(markup: string): AstNode[];
     static parseAst(ast: AstNode[]): StyledBlock[];
     static parseStyle(input: StyledBlock[] | Style | undefined): string;

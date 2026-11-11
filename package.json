@@ -1,17 +1,15 @@
 {
   "name": "dye",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "MahdiDevRoom",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "private": true,
   "scripts": {
-    "watch": "tsc -w",
+    "tsc": "tsc -w",
     "dev": "node --watch=dist test",
     "test": "node test",
     "build": "tsc"

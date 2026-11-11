@@ -1,14 +1,12 @@
 /**
  * @name dye
- * @version 1.0.2
+ * @version 1.0.3
  * @author MahdiDevRoom
  * @license MIT
  * @see https://github.com/MahdiDevRoom/dye
  */
 
-/* --------------------------------------------------------
-  TYPES
--------------------------------------------------------- */
+/* TYPES */
 export type EffectName =
   | 'bold' | 'dim' | 'italic' | 'underline'
   | 'blink' | 'inverse' | 'hidden' | 'strikethrough';
@@ -96,13 +94,11 @@ export interface StyledBlock {
   style?: Style;
 }
 
-/* --------------------------------------------------------
-  DYE
--------------------------------------------------------- */
+/* DYE */
 export class Dye {
-  static readonly version = '1.0.2';
+  static readonly version = '1.0.3';
 
-  // --- Privet values ------------------------------------
+  // Privet values 
   static #STYLES: ReadonlySet<EffectName> = new Set<EffectName>([
     'bold', 'dim', 'italic', 'underline',
     'blink', 'inverse', 'hidden', 'strikethrough',
@@ -193,7 +189,7 @@ export class Dye {
     };
   })();
 
-  // --- Private Methods ----------------------------------
+  // Private Methods 
   static #resolveAlias(content: string): string {
     const trimmed = content.trim();
     return Object.prototype.hasOwnProperty.call(Dye.#ALIASES, trimmed)
@@ -302,7 +298,7 @@ export class Dye {
     return '';
   }
 
-  // --- Low Level Api ------------------------------------
+  // Low Level Api 
   static parseMarkup(markup: string): AstNode[] {
     if (typeof markup !== 'string') return [];
 
@@ -352,11 +348,10 @@ export class Dye {
         pendingStyle = null;
       } else {
         current = Dye.#applyStyle(current, node.value);
-        pendingStyle = { ...current }; // استایل جدید هنوز ثبت نشده
+        pendingStyle = { ...current };
       }
     }
 
-    // flush انتهایی فقط اگر استایلی ثبت نشده باشد
     if (pendingStyle && Object.keys(pendingStyle).length > 0) {
       result.push({ text: '', style: { ...pendingStyle } });
     }
@@ -393,7 +388,7 @@ export class Dye {
     return out;
   }
 
-  // --- High Level API -----------------------------------
+  // High Level API 
   static innerText(input: string | StyledBlock[]): string {
     if (Array.isArray(input)) {
       let out = '';
@@ -432,7 +427,9 @@ export class Dye {
       if (value === true) parts.push(key);
     }
 
-    return `${Dye.#SYNTAX.START} ${parts.join(' ')} ${Dye.#SYNTAX.END}`;
+    if (parts.length === 0) return '';
+
+    return `${Dye.#SYNTAX.START}${parts.join(' ')}${Dye.#SYNTAX.END}`;
   }
 
   static createStyle(tag: string): Style {
@@ -472,5 +469,3 @@ export class Dye {
   }
 
 }
-
-

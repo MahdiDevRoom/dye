@@ -2,14 +2,12 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-
-    "module": "nodenext",
+    "module": "esnext",
     "target": "esnext",
-
     "declaration": true,
     "esModuleInterop": true,
-
-    "strict": true
+    "strict": true,
   },
+
   "include": ["src/**/*"]
 }
